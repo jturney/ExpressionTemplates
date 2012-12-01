@@ -1,5 +1,7 @@
 #include <cstdio>
 
+#include "avx.h"
+
 // operation tags
 struct plus; struct minus;
 
