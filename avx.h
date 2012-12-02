@@ -5,12 +5,14 @@
 # error AVX required.
 #endif
 
+#include <cstdio>  // for printf
 #include <immintrin.h>
 
 namespace et {
 
 struct avx {
 
+    enum { vector_size = sizeof(__m256d) / sizeof(double) };
     typedef double value_type;
     __m256d d;
 
@@ -38,11 +40,15 @@ struct avx {
         return *this;
     }
 
-    operator value_type() const {
-        value_type d0[4];
-        _mm256_storeu_pd(&(d0[0]), d);
-        return d0[0];
+    void print() const {
+        printf("%lf %lf %lf %lf ", d[0], d[1], d[2], d[3]);
     }
+
+//    operator value_type() const {
+//        value_type d0[4];
+//        _mm256_storeu_pd(&(d0[0]), d);
+//        return d0[0];
+//    }
 };
 
 inline avx operator*(double a, avx b) {

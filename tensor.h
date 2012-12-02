@@ -1,6 +1,7 @@
 #ifndef tensor_h
 #define tensor_h
 
+#include <cstdio> // for printf
 namespace et {
 
 template <typename DataType>
@@ -29,6 +30,17 @@ struct tensor
             data_[i] = x[i];
         }
         return *this;
+    }
+
+    void print() const {
+        printf("tensor: size = %zu\n", size_);
+        for (size_t i=0; i<size_; ++i) {
+            data_[i].print();
+//            if ((i + data_type::vector_size) % 8 == 0)
+            if (i+4 % 8 == 0)
+                printf("\n");
+        }
+        printf("\n");
     }
 
     size_t size_;
