@@ -8,6 +8,12 @@ CXXFLAGS += $($(CXX).cxxflags)
 LDFLAGS  += $($(CXX).ldflags)
 TARGET_ARCH += $($(CXX).target_arch)
 
+ifeq "$(need_debug)" "true"
+	CXXFLAGS += $($(CXX).debug)
+else
+	CXXFLAGS += $($(CXX).optimization)
+endif
+
 ifeq "$(need_blas)" "true"
 	CXXFLAGS += $($(CXX).blas_cxxflags)
 	LIBRARIES += $($(CXX).blas_libraries)
