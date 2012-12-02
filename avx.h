@@ -35,6 +35,7 @@ struct avx {
         d = _mm256_sub_pd(d, a.d);
         return *this;
     }
+
     operator double() const {
         double d0[4];
         _mm256_storeu_pd(&(d0[0]), d);

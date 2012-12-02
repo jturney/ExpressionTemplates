@@ -9,11 +9,13 @@ struct plus; struct minus;
 template <class L, class OpTag, class R>
 struct expression
 {
+    typedef typename L::data_type data_type;
+
     expression(L const& l, R const& r)
         : l_(l), r_(r)
     {}
 
-    double operator[](size_t index) const {
+    data_type operator[](size_t index) const {
         return OpTag::apply(l_[index], r_[index]);
     }
 
@@ -38,7 +40,7 @@ expression<L, minus, R> operator-(L const& l, R const& r)
 struct plus
 {
     template <typename DataType>
-    static double apply(DataType a, DataType b) {
+    static DataType apply(DataType a, DataType b) {
         return a + b;
     }
 };
@@ -46,7 +48,7 @@ struct plus
 struct minus
 {
     template <typename DataType>
-    static double apply(DataType a, DataType b) {
+    static DataType apply(DataType a, DataType b) {
         return a - b;
     }
 };
@@ -85,16 +87,26 @@ struct tensor
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    tensor<int> x(4), y(4), z(4);
+    enum { N = 2 };
+    avx one(1.0, 2.0, 3.0, 4.0), two(2.0);
 
-    x[0] = x[1] = x[2] = x[3] = 1.0;
-    y[0] = y[1] = y[2] = y[3] = 2.0;
+    tensor<avx> x(N), y(N), z(N);
+
+    // Calls the operator= on the first avx object which sets all 4 doubles to 1.0, or 2.0
+    x[0] = one;
+    y[0] = two;
+    x[1] = two;
+    y[1] = one;
 
     z = x + y;
 
-    printf("%5s%5s%5s\n", "x", "y", "z");
+    printf("%10s%10s%10s\n", "x", "y", "z");
+    avx x0 = x[0], y0 = y[0], ans = z.data_[0];
     for (int i=0; i<4; ++i)
-        printf("%5d%5d%5d\n", x[i], y[i], z[i]);
+        printf("%10lf%10lf%10lf\n", x0.d[i], y0.d[i], ans.d[i]);
+    x0 = x[1]; y0 = y[1]; ans = z.data_[1];
+    for (int i=0; i<4; ++i)
+        printf("%10lf%10lf%10lf\n", x0.d[i], y0.d[i], ans.d[i]);
 
     return 0;
 }
