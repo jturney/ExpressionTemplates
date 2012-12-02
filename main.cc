@@ -4,12 +4,39 @@
 #include "expr.h"
 #include "tensor.h"
 
+namespace et {
+
+template <char Label>
+struct dimension
+{
+    typedef unsigned int length_type;
+
+    enum { label = Label };
+
+    length_type length;
+
+    dimension(unsigned int l) : length(l) {}
+
+    operator length_type() const {
+        return length;
+    }
+
+    void print() const {
+        printf("dimension: %c, length %u\n", label, length);
+    }
+};
+
+}
+
 using namespace et;
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    enum { N = 2 };
+    enum { N = 3 };
     avx one(1.0, 2.0, 3.0, 4.0), two(2.0);
+
+    dimension<'o'> o(3);
+    o.print();
 
     tensor<avx> x(N), y(N), z(N);
 
@@ -21,13 +48,11 @@ int main(int /*argc*/, char** /*argv*/)
 
     z = x + y;
 
-    printf("%10s%10s%10s\n", "x", "y", "z");
-    avx x0 = x[0], y0 = y[0], ans = z.data_[0];
-    for (int i=0; i<4; ++i)
-        printf("%10lf%10lf%10lf\n", x0.d[i], y0.d[i], ans.d[i]);
-    x0 = x[1]; y0 = y[1]; ans = z.data_[1];
-    for (int i=0; i<4; ++i)
-        printf("%10lf%10lf%10lf\n", x0.d[i], y0.d[i], ans.d[i]);
+    printf("vector size = %d\n", avx::vector_size);
+
+    x.print();
+    y.print();
+    z.print();
 
     return 0;
 }
