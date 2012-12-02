@@ -7,6 +7,8 @@
 
 #include <immintrin.h>
 
+namespace et {
+
 struct avx {
 
     typedef double value_type;
@@ -36,13 +38,10 @@ struct avx {
         return *this;
     }
 
-    operator double() const {
-        double d0[4];
+    operator value_type() const {
+        value_type d0[4];
         _mm256_storeu_pd(&(d0[0]), d);
         return d0[0];
-    }
-    void convert(value_type (&a)[4]) const {
-        _mm256_storeu_pd(&a[0], d);
     }
 };
 
@@ -135,5 +134,7 @@ inline avx fma_minus(avx a, avx b, avx c) {
     return d;
 }
 #endif // __FMA__ __FMA4__
+
+}
 
 #endif // avx_h
