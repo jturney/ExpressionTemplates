@@ -1,4 +1,4 @@
-# Clang is the only one that seems to work on Mac OS X
+# Compilation flags specific for clang++
 clang++.optimization := -O3
 clang++.debug := -O0 -g
 clang++.cxxflags := -std=c++11 -stdlib=libc++

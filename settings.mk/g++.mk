@@ -1,4 +1,7 @@
-g++.cxxflags := -std=c++11 -O3
+# Compilation flags specific for g++
+g++.optimization := -O3
+g++.debug := -O0 -g
+g++.cxxflags := -std=c++11
 g++.ldflags := 
 g++.target_arch := -march=corei7-avx
 g++.blas_cxxflags := 
