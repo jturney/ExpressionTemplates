@@ -1,6 +1,8 @@
 #ifndef expr_h
 #define expr_h
 
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/is_same.hpp>
 namespace et {
 
 // operation tags
@@ -10,7 +12,11 @@ struct plus; struct minus;
 template <class L, class OpTag, class R>
 struct expression
 {
+    static_assert(boost::is_same<typename L::data_type, typename R::data_type>::value, "L and R must be same type.");
+
     typedef typename L::data_type data_type;
+
+//    typedef typename L::data_type data_type;
 
     expression(L const& l, R const& r)
         : l_(l), r_(r)
