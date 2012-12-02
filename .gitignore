@@ -22,3 +22,5 @@
 et
 *dSYM
 
+# Apple data
+.DS_Store
