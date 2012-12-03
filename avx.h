@@ -5,6 +5,7 @@
 # error AVX required.
 #endif
 
+#include <cstring>
 #include <cstdio>  // for printf
 #include <immintrin.h>
 
@@ -41,7 +42,10 @@ struct avx {
     }
 
     void print() const {
-        printf("%lf %lf %lf %lf ", d[0], d[1], d[2], d[3]);
+        double p[vector_size];
+        ::memcpy(&p, &d, sizeof(__m256d));
+//        _mm256_store_pd(p, d);
+        printf("%lf %lf %lf %lf ", p[0], p[1], p[2], p[3]);
     }
 
 //    operator value_type() const {
