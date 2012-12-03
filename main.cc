@@ -15,7 +15,7 @@ struct dimension
 
     length_type length;
 
-    dimension(unsigned int l) : length(l) {}
+    dimension(length_type l) : length(l) {}
 
     operator length_type() const {
         return length;

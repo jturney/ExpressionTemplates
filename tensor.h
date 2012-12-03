@@ -8,9 +8,13 @@ template <typename DataType>
 struct tensor
 {
     typedef DataType data_type;
+    enum { vector_size = data_type::vector_size };
 
-    tensor(size_t size) : size_(size) {
-        data_ = new data_type[size];
+    tensor(size_t size) : real_size_(size) {
+        // need to do size checking of size with data_type::vector_size
+        // this may result in padding being applied to data_.
+        size_ = (real_size_ + vector_size - 1) % vector_size;
+        data_ = new data_type[size_];
     }
     ~tensor() {
         delete[] data_;
@@ -43,6 +47,9 @@ struct tensor
         printf("\n");
     }
 
+    /// Real size of the vector that the user requested.
+    size_t real_size_;
+    /// Actual size of the vector (real_size + data_type::vector_size - 1) % data_type::vector_size
     size_t size_;
     data_type* data_;
 };
