@@ -42,17 +42,11 @@ struct avx {
     }
 
     void print() const {
-        double p[vector_size];
+        alignas(__m256d) double p[vector_size];
         ::memcpy(&p, &d, sizeof(__m256d));
-//        _mm256_store_pd(p, d);
+//        _mm256_storeu_pd(&(p[0]), d);
         printf("%lf %lf %lf %lf ", p[0], p[1], p[2], p[3]);
     }
-
-//    operator value_type() const {
-//        value_type d0[4];
-//        _mm256_storeu_pd(&(d0[0]), d);
-//        return d0[0];
-//    }
 };
 
 inline avx operator*(double a, avx b) {

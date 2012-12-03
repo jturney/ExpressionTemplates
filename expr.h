@@ -64,6 +64,12 @@ struct minus
     }
 };
 
+//template <typename DataType, typename D1>
+//inline tensor<DataType, D1> sqrt(tensor<DataType, D1> const& a) {
+//    for ()
+//    return _mm256_sqrt_pd(a.d);
+//}
+
 }
 
 #endif // expr_h

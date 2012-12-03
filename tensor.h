@@ -37,7 +37,7 @@ struct tensor
     typedef DataType data_type;
     enum { vector_size = data_type::vector_size };
 
-    tensor(const std::string& name, const D1& d1) : name_(name), real_size_(d1) {
+    tensor(const std::string& name, const D1& d1) : name_(name), real_size_(d1), d1_(d1) {
         // need to do size checking of size with data_type::vector_size
         // this may result in padding being applied to data_.
         size_ = real_size_ / vector_size;
@@ -95,8 +95,12 @@ struct tensor
     std::string name_;
     /// Real size of the vector that the user requested.
     size_t real_size_;
-    /// Actual size of the vector (real_size + data_type::vector_size - 1) % data_type::vector_size
+    /// Actual size of the vector
     size_t size_;
+    /// Dimension object
+    D1 const& d1_;
+
+    /// The actual data
     data_type* data_;
 };
 
