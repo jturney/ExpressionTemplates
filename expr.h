@@ -1,11 +1,11 @@
 #ifndef expr_h
 #define expr_h
 
-#include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
+
 namespace et {
 
-template<typename DataType>
+template<typename DataType, typename D1>
 struct tensor;
 
 // operation tags
@@ -35,17 +35,17 @@ struct expression
 };
 
 // addition operator
-template <class L, class R>
-expression<tensor<L>, plus, tensor<R> > operator+(tensor<L> const& l, tensor<R> const& r)
+template <typename L, typename R, typename D1>
+expression<tensor<L, D1>, plus, tensor<R, D1> > operator+(tensor<L, D1> const& l, tensor<R, D1> const& r)
 {
-    return expression<tensor<L>, plus, tensor<R> >(l, r);
+    return expression<tensor<L, D1>, plus, tensor<R, D1> >(l, r);
 }
 
 // subtraction operator
-template <class L, class R>
-expression<tensor<L>, minus, tensor<R> > operator-(tensor<L> const& l, tensor<R> const& r)
+template <typename L, typename R, typename D1>
+expression<tensor<L, D1>, minus, tensor<R, D1> > operator-(tensor<L, D1> const& l, tensor<R, D1> const& r)
 {
-    return expression<tensor<L>, minus, tensor<R> >(l, r);
+    return expression<tensor<L, D1>, minus, tensor<R, D1> >(l, r);
 }
 
 struct plus

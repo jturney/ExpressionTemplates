@@ -6,25 +6,7 @@
 
 namespace et {
 
-template <char Label>
-struct dimension
-{
-    typedef unsigned int length_type;
 
-    enum { label = Label };
-
-    length_type length;
-
-    dimension(length_type l) : length(l) {}
-
-    operator length_type() const {
-        return length;
-    }
-
-    void print() const {
-        printf("dimension: %c, length %u\n", label, length);
-    }
-};
 
 }
 
@@ -32,27 +14,33 @@ using namespace et;
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    enum { N = 3 };
-    avx one(1.0, 2.0, 3.0, 4.0), two(2.0);
+    avx one(1.0/*, 2.0, 3.0, 4.0*/),
+        two(2.0);
 
-    dimension<'o'> o(3);
+    occ o(3);
+    virt v(5);
     o.print();
 
-    tensor<avx> x(N), y(N), z(N);
+    tensor<avx, occ> i("i", o), j("j", o), k("k", o);
+    tensor<avx, virt> a("a", v);
 
-    // Calls the operator= on the first avx object which sets all 4 doubles to 1.0, or 2.0
-    x[0] = one;
-    y[0] = two;
-    x[1] = two;
-    y[1] = one;
+    // Calls the operator= passing an avx object to each element in the tensor.
+    i = one;
+    j = two;
 
-    z = x + y;
+    k = i + j;
 
-    printf("vector size = %d\n", avx::vector_size);
+    i.print();
+    j.print();
+    k.print();
 
-    x.print();
-    y.print();
-    z.print();
+    k = i - j;
+    k.print();
+
+    // The following line fails because you're trying to assign a virtual tensor
+    // to an occupied tensor. This results in a compile time static assertion
+    // with a nice error message.
+//    k = a;
 
     return 0;
 }
