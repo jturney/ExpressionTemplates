@@ -24,3 +24,6 @@ etemplate
 
 # Apple data
 .DS_Store
+
+# Qt Creator files
+ExpressionTemplates.*
