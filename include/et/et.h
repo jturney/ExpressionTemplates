@@ -7,4 +7,4 @@
 #include "types/avx.h"
 #include "expr.h"
 #include "tensor.h"
-
+#include "ops.h"

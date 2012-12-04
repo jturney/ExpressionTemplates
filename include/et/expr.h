@@ -3,8 +3,6 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include "ops.h"
-
 namespace et {
 
 // All expressions derive from this base class.

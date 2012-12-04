@@ -31,8 +31,11 @@ struct dimension
 typedef dimension<'o'> occ;
 typedef dimension<'v'> virt;
 
+struct tensor_base
+{};
+
 template <typename DataType, typename D1>
-struct tensor
+struct tensor : public tensor_base
 {
     typedef DataType data_type;
     enum { vector_size = data_type::vector_size };
