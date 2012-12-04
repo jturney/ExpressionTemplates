@@ -19,7 +19,7 @@
 *.s
 
 # Created executable
-et
+etemplate
 *dSYM
 
 # Apple data

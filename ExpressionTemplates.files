@@ -19,3 +19,4 @@ settings.mk/clang++.mk
 settings.mk/g++.mk
 settings.mk/gmp.mk
 settings.mk/icpc.mk
+include/et/typetraits/is_expression.h

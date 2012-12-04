@@ -1,5 +1,5 @@
-exe := et
-sources := main.cc
+exe := etemplate
+sources := src/main.cc
 include_dirs := include
 
 # Override the default compiler
