@@ -4,6 +4,7 @@ dependencies := $(subst .cc,.d,$(sources))
 
 include settings.mk/$(CXX).mk
 include settings.mk/boost.mk
+include settings.mk/gmp.mk
 
 CXXFLAGS += $($(CXX).cxxflags)
 LDFLAGS  += $($(CXX).ldflags)
@@ -25,7 +26,12 @@ ifeq "$(need_boost)" "true"
 	LIBRARIES += $(boost.libraries)
 endif
 
-CPPFLAGS += $(addprefix -I ,$(include_dirs))
+ifeq "$(need_gmp)" "true"
+	include_dirs += $(gmp.include_dirs)
+	LIBRARIES += $(gmp.libraries)
+endif
+
+CPPFLAGS += $(addprefix -I ,$(sort $(include_dirs)))
 vpath %.h $(include_dirs)
 
 # Default make target

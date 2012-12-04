@@ -23,12 +23,13 @@ int main(int /*argc*/, char** /*argv*/)
     virt v(5);
     o.print();
 
-    tensor<base_type, occ> i("i", o), j("j", o), k("k", o);
+    tensor<base_type, occ> i("i", o), j("j", o), k("k", o), l("l", o);
     tensor<base_type, virt> a("a", v);
 
     // Calls the operator= passing an avx object to each element in the tensor.
     i = one;
     j = two;
+    l = four;
 
     k = i + j;
 
@@ -39,7 +40,8 @@ int main(int /*argc*/, char** /*argv*/)
     k = i - j;
     k.print();
 
-//    k = i + sqrt(four);
+    printf("k = i + sqrt(l): i = one, l = four\n");
+    k = i + sqrt(l);
     k.print();
 
     // The following line fails because you're trying to assign a virtual tensor
