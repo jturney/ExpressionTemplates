@@ -1,9 +1,7 @@
 #if !defined(avx_h)
 #define avx_h
 
-#if !defined __AVX__
-# error AVX required.
-#endif
+#if defined(__AVX__)
 
 #include <cstring>
 #include <cstdio>  // for printf
@@ -140,5 +138,7 @@ inline avx fma_minus(avx a, avx b, avx c) {
 #endif // __FMA__ __FMA4__
 
 }
+
+#endif // __AVX__
 
 #endif // avx_h

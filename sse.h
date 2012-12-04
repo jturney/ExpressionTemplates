@@ -9,6 +9,10 @@
 #include <cstdio>  // for printf
 #include <emmintrin.h>
 
+#if !defined(alignas)
+#  define alignas(x)
+#endif
+
 namespace et {
 
 struct sse {
@@ -43,8 +47,8 @@ struct sse {
 
     void print() const {
         alignas(__m128d) double p[vector_size];
-        ::memcpy(&p, &d, sizeof(__m128d));
-//        _mm256_storeu_pd(&(p[0]), d);
+        //::memcpy(&p, &d, sizeof(__m128d));
+        _mm_storeu_pd(&(p[0]), d);
         printf("%lf %lf ", p[0], p[1]);
     }
 };
