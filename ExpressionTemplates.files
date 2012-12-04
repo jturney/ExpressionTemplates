@@ -4,3 +4,4 @@ expr.h
 tensor.h
 sse.h
 README.md
+config.h
