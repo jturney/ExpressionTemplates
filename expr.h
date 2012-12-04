@@ -5,6 +5,10 @@
 
 namespace et {
 
+// All expressions derive from this base class.
+struct expression
+{};
+
 template<typename DataType, typename D1>
 struct tensor;
 
@@ -13,7 +17,7 @@ struct plus; struct minus; struct square_root;
 
 // expression tree node
 template <class L, class OpTag, class R>
-struct expression2
+struct expression2 : public expression
 {
 //    static_assert(boost::is_same<L, R>::value, "L and R must be same type.");
 
@@ -35,7 +39,7 @@ struct expression2
 };
 
 template <class L, class OpTag>
-struct expression1
+struct expression1 : public expression
 {
     typedef L data_type;
     typedef typename data_type::data_type result_type;
