@@ -4,7 +4,7 @@ include_dirs := include
 
 # Override the default compiler
 #    Understands clang++, g++, and icpc.
-CXX := icpc
+CXX := clang++
 
 # Other things that I could need:
 #    need_debug := adds debug flags to the compilation

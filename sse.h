@@ -1,17 +1,10 @@
 #if !defined(sse_h)
 #define sse_h
 
-#if !defined __SSE2__
-# error SSE2 required.
-#endif
+#include "config.h"
 
 #include <cstring>
 #include <cstdio>  // for printf
-#include <emmintrin.h>
-
-#if !defined(alignas)
-#  define alignas(x)
-#endif
 
 namespace et {
 

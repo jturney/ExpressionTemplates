@@ -1,5 +1,6 @@
 #include <cstdio>
 
+#include "config.h"
 #include "sse.h"
 #include "avx.h"
 #include "expr.h"
