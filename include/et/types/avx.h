@@ -1,12 +1,7 @@
 #if !defined(avx_h)
 #define avx_h
 
-#include "config.h"
-
 #if defined(__AVX__)
-
-#include <cstring>
-#include <cstdio>  // for printf
 
 namespace et {
 

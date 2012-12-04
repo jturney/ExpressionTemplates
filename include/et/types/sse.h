@@ -1,11 +1,6 @@
 #if !defined(sse_h)
 #define sse_h
 
-#include "config.h"
-
-#include <cstring>
-#include <cstdio>  // for printf
-
 namespace et {
 
 struct sse {
