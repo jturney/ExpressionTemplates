@@ -3,6 +3,8 @@
 
 #include <boost/type_traits/is_same.hpp>
 
+#include "ops.h"
+
 namespace et {
 
 // All expressions derive from this base class.
@@ -80,30 +82,6 @@ template <typename L, typename D1>
 inline expression1<tensor<L, D1>, square_root> sqrt(tensor<L, D1> const& l) {
     return expression1<tensor<L, D1>, square_root>(l);
 }
-
-struct plus
-{
-    template <typename data_type>
-    static data_type apply(data_type a, data_type b) {
-        return a + b;
-    }
-};
-
-struct minus
-{
-    template <typename data_type>
-    static data_type apply(data_type a, data_type b) {
-        return a - b;
-    }
-};
-
-struct square_root
-{
-    template <typename data_type>
-    static data_type apply(data_type a) {
-        return sqrt(a);
-    }
-};
 
 }
 
