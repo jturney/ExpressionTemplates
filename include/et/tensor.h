@@ -31,14 +31,37 @@ struct dimension
 typedef dimension<'o'> occ;
 typedef dimension<'v'> virt;
 
+/*! \brief Base class for tensors.
+ *  \ingroup tensor
+ *
+ * The tensor_base struct is a the base for all tensors. It provides an
+ * abstraction from the actual type of tensor, but enables a conversion
+ * back to its type via the 'Curiously Recurring Template Pattern'.
+ */
+template<typename TT> // Type of the tensor
 struct tensor_base
-{};
-
-template <typename DataType, typename D1>
-struct tensor : public tensor_base
 {
-    typedef DataType data_type;
-    enum { vector_size = data_type::vector_size };
+    typedef TT tensor_type;
+
+    /// Handles type casting
+    tensor_type& operator~() {
+        return *static_cast<tensor_type*>(this);
+    }
+
+    ///
+    tensor_type const& operator~() const {
+        return *static_cast<tensor_type const*>(this);
+    }
+};
+
+template <typename DT, typename D1>
+struct tensor : public tensor_base<tensor<DT, D1> >
+{
+    /// Type of tensor (could be a raw tensor or an expression of a tensor)
+    typedef DT tensor_type;
+
+    /// Data width (AVX = 4, SSE2 = 2, etc.)
+    enum { vector_size = tensor_type::vector_size };
 
     tensor(const std::string& name, const D1& d1) : name_(name), real_size_(d1), d1_(d1) {
         // need to do size checking of size with data_type::vector_size
@@ -46,17 +69,17 @@ struct tensor : public tensor_base
         size_ = real_size_ / vector_size;
         if (real_size_ % vector_size)
             size_ += 1;
-        data_ = new data_type[size_];
+        data_ = new tensor_type[size_];
     }
     ~tensor() {
         delete[] data_;
     }
 
-    data_type& operator[](size_t i) {
+    tensor_type& operator[](size_t i) {
         return data_[i];
     }
 
-    data_type const& operator[](size_t i) const {
+    tensor_type const& operator[](size_t i) const {
         return data_[i];
     }
 
@@ -68,7 +91,7 @@ struct tensor : public tensor_base
     }
 
     template<typename Dimension2>
-    tensor& operator=(tensor<data_type, Dimension2> const& x) {
+    tensor& operator=(tensor<tensor_type, Dimension2> const& x) {
         static_assert(boost::is_same<D1, Dimension2>::value, "Tensor assigment only possible across same dimension.");
 
         for (size_t i=0; i<size_; ++i)
@@ -76,7 +99,7 @@ struct tensor : public tensor_base
         return *this;
     }
 
-    tensor& operator=(data_type const& x) {
+    tensor& operator=(tensor_type const& x) {
         for (size_t i=0; i<size_; ++i)
             data_[i] = x;
         return *this;
@@ -84,7 +107,7 @@ struct tensor : public tensor_base
 
     void print() const {
         printf("tensor: name = %s size = %zu vector_size = %d user_requested %zu\n",
-               name_.c_str(), size_, data_type::vector_size, real_size_);
+               name_.c_str(), size_, tensor_type::vector_size, real_size_);
         for (size_t i=0; i<size_; ++i) {
             data_[i].print();
 //            if ((i + data_type::vector_size) % 8 == 0)
@@ -104,7 +127,7 @@ struct tensor : public tensor_base
     D1 const& d1_;
 
     /// The actual data
-    data_type* data_;
+    tensor_type* data_;
 };
 
 }

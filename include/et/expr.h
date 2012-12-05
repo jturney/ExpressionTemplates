@@ -22,7 +22,7 @@ struct expression2 : public expression
 //    static_assert(boost::is_same<L, R>::value, "L and R must be same type.");
 
     typedef L data_type;
-    typedef typename data_type::data_type result_type;
+    typedef typename data_type::tensor_type result_type;
 
 //    typedef typename L::data_type data_type;
 
@@ -42,7 +42,7 @@ template <class L, class OpTag>
 struct expression1 : public expression
 {
     typedef L data_type;
-    typedef typename data_type::data_type result_type;
+    typedef typename data_type::tensor_type result_type;
 
     expression1(L const& l)
         : l_(l)
