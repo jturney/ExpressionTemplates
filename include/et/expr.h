@@ -57,28 +57,28 @@ struct expression1 : public expression
 
 // addition operator
 template <typename L, typename D1>
-expression2<tensor<L, D1>, plus, tensor<L, D1> > operator+(tensor<L, D1> const& l, tensor<L, D1> const& r)
+expression2<dense_tensor<L, D1>, plus, dense_tensor<L, D1> > operator+(dense_tensor<L, D1> const& l, dense_tensor<L, D1> const& r)
 {
-    return expression2<tensor<L, D1>, plus, tensor<L, D1> >(l, r);
+    return expression2<dense_tensor<L, D1>, plus, dense_tensor<L, D1> >(l, r);
 }
 
 template <typename L, typename D1, typename Op1>
-expression2<tensor<L, D1>, plus, expression1<tensor<L, D1>, Op1> > operator+(tensor<L, D1> const& l, expression1<tensor<L, D1>, Op1> const& r)
+expression2<dense_tensor<L, D1>, plus, expression1<dense_tensor<L, D1>, Op1> > operator+(dense_tensor<L, D1> const& l, expression1<dense_tensor<L, D1>, Op1> const& r)
 {
-    return expression2<tensor<L, D1>, plus, expression1<tensor<L, D1>, Op1> >(l, r);
+    return expression2<dense_tensor<L, D1>, plus, expression1<dense_tensor<L, D1>, Op1> >(l, r);
 }
 
 // subtraction operator
 template <typename L, typename R, typename D1>
-expression2<tensor<L, D1>, minus, tensor<R, D1> > operator-(tensor<L, D1> const& l, tensor<R, D1> const& r)
+expression2<dense_tensor<L, D1>, minus, dense_tensor<R, D1> > operator-(dense_tensor<L, D1> const& l, dense_tensor<R, D1> const& r)
 {
-    return expression2<tensor<L, D1>, minus, tensor<R, D1> >(l, r);
+    return expression2<dense_tensor<L, D1>, minus, dense_tensor<R, D1> >(l, r);
 }
 
 // square root operator
 template <typename L, typename D1>
-inline expression1<tensor<L, D1>, square_root> sqrt(tensor<L, D1> const& l) {
-    return expression1<tensor<L, D1>, square_root>(l);
+inline expression1<dense_tensor<L, D1>, square_root> sqrt(dense_tensor<L, D1> const& l) {
+    return expression1<dense_tensor<L, D1>, square_root>(l);
 }
 
 }

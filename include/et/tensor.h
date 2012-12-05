@@ -55,7 +55,7 @@ struct tensor_base
 };
 
 template <typename DT, typename D1>
-struct tensor : public tensor_base<tensor<DT, D1> >
+struct dense_tensor : public tensor_base<dense_tensor<DT, D1> >
 {
     /// Type of tensor (could be a raw tensor or an expression of a tensor)
     typedef DT tensor_type;
@@ -63,7 +63,7 @@ struct tensor : public tensor_base<tensor<DT, D1> >
     /// Data width (AVX = 4, SSE2 = 2, etc.)
     enum { vector_size = tensor_type::vector_size };
 
-    tensor(const std::string& name, const D1& d1) : name_(name), real_size_(d1), d1_(d1) {
+    dense_tensor(const std::string& name, const D1& d1) : name_(name), real_size_(d1), d1_(d1) {
         // need to do size checking of size with data_type::vector_size
         // this may result in padding being applied to data_.
         size_ = real_size_ / vector_size;
@@ -71,7 +71,7 @@ struct tensor : public tensor_base<tensor<DT, D1> >
             size_ += 1;
         data_ = new tensor_type[size_];
     }
-    ~tensor() {
+    ~dense_tensor() {
         delete[] data_;
     }
 
@@ -84,14 +84,14 @@ struct tensor : public tensor_base<tensor<DT, D1> >
     }
 
     template <typename Expr>
-    tensor& operator=(Expr const& x) {
+    dense_tensor& operator=(Expr const& x) {
         for (size_t i=0; i<size_; ++i)
             data_[i] = x[i];
         return *this;
     }
 
     template<typename Dimension2>
-    tensor& operator=(tensor<tensor_type, Dimension2> const& x) {
+    dense_tensor& operator=(dense_tensor<tensor_type, Dimension2> const& x) {
         static_assert(boost::is_same<D1, Dimension2>::value, "Tensor assigment only possible across same dimension.");
 
         for (size_t i=0; i<size_; ++i)
@@ -99,7 +99,7 @@ struct tensor : public tensor_base<tensor<DT, D1> >
         return *this;
     }
 
-    tensor& operator=(tensor_type const& x) {
+    dense_tensor& operator=(tensor_type const& x) {
         for (size_t i=0; i<size_; ++i)
             data_[i] = x;
         return *this;

@@ -19,8 +19,8 @@ int main(int /*argc*/, char** /*argv*/)
     virt v(5);
     o.print();
 
-    tensor<base_type, occ> i("i", o), j("j", o), k("k", o), l("l", o);
-    tensor<base_type, virt> a("a", v);
+    dense_tensor<base_type, occ> i("i", o), j("j", o), k("k", o), l("l", o);
+    dense_tensor<base_type, virt> a("a", v);
 
     // Calls the operator= passing an avx object to each element in the tensor.
     i = one;
