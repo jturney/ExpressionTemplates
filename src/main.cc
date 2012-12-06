@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <et/et.h>
 
+#include <et/type_traits/intrinsic_trait.h>
+
 namespace et {
 
 }
@@ -11,6 +13,10 @@ using namespace et;
 
 int main(int /*argc*/, char** /*argv*/)
 {
+    printf("Intrinsic Trait Test:\n");
+    printf("  size      %d\n", intrinsic_trait<double>::size);
+    printf("  alignment %d\n", intrinsic_trait<double>::alignment);
+
     base_type one(1.0/*, 2.0, 3.0, 4.0*/),
         two(2.0),
         four(4.0);
